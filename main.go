@@ -74,12 +74,16 @@ func main() {
 
 	if desktopGL {
 		err = gl.Init()
+		if err != nil {
+			log.Fatalf("gl.Init failed: %v", err)
+		}
 	} else {
 		err = gles2.Init()
+		if err != nil {
+			log.Fatalf("gles2.Init failed: %v", err)
+		}
 	}
-	if err != nil {
-		log.Fatalf("gl.Init failed: %v", err)
-	}
+
 	if desktopGL {
 		// Enable sRGB.
 		gl.Enable(gl.FRAMEBUFFER_SRGB)
