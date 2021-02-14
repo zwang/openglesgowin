@@ -1,16 +1,3 @@
-// SPDX-License-Identifier: Unlicense OR MIT
-
-// GLFW doesn't build on OpenBSD and FreeBSD.
-// +build !openbsd,!freebsd,!android,!ios,!js
-
-// The glfw example demonstrates integration of Gio into a foreign
-// windowing and rendering library, in this case GLFW
-// (https://www.glfw.org).
-//
-// See the go-glfw package for installation of the native
-// dependencies:
-//
-// https://github.com/go-gl/glfw
 package main
 
 import (
@@ -21,11 +8,8 @@ import (
 	"runtime"
 )
 
-// desktopGL is true when the (core, desktop) OpenGL should
-// be used, false for OpenGL ES.
-const desktopGL = runtime.GOOS == "darwin"
-
 var jsvm *JsVM
+var green = 0.2
 
 func init() {
 	// Required by the OpenGL threading model.
@@ -38,7 +22,6 @@ func main() {
 		log.Fatal(err)
 	}
 	defer glfw.Terminate()
-	// Gio assumes a sRGB back buffer.
 	glfw.WindowHint(glfw.SRGBCapable, glfw.True)
 	glfw.WindowHint(glfw.ScaleToMonitor, glfw.True)
 	glfw.WindowHint(glfw.CocoaRetinaFramebuffer, glfw.True)
@@ -61,23 +44,30 @@ func main() {
 
 	registerCallbacks(window)
 	for !window.ShouldClose() {
-		glfw.PollEvents()
+		window.MakeContextCurrent()
 		drawOpenGL()
 		window.SwapBuffers()
+		glfw.PollEvents()
 	}
 }
 
-var (
-	green float64 = 0.2
-)
-
 // drawOpenGL demonstrates the direct use of OpenGL commands
-// to draw non-Gio content below the Gio UI.
 func drawOpenGL() {
 	_, err := jsvm.V8ctx.RunScript("log(\"GL.ES_VERSION_2_0 =\", GL.ES_VERSION_2_0)", "main.js")
 	if err != nil {
 		fmt.Println(fmt.Sprintf("error log %v", err))
 	}
+
+	_, err = jsvm.V8ctx.RunScript("log(\"GL.COLOR_BUFFER_BIT =\", GL.COLOR_BUFFER_BIT)", "main.js")
+	if err != nil {
+		fmt.Println(fmt.Sprintf("error log %v", err))
+	}
+
+	_, err = jsvm.V8ctx.RunScript("log(\"GL.DEPTH_BUFFER_BIT =\", GL.DEPTH_BUFFER_BIT)", "main.js")
+	if err != nil {
+		fmt.Println(fmt.Sprintf("error log %v", err))
+	}
+
 
 	_, err = jsvm.V8ctx.RunScript(fmt.Sprintf("GL.clearColor(0, %f, 0, 1)", float32(green)), "main.js")
 	if err != nil {
