@@ -43,6 +43,7 @@ func main() {
 	}
 
 	registerCallbacks(window)
+	logGLInfo()
 	for !window.ShouldClose() {
 		window.MakeContextCurrent()
 		drawOpenGL()
@@ -53,6 +54,17 @@ func main() {
 
 // drawOpenGL demonstrates the direct use of OpenGL commands
 func drawOpenGL() {
+	_, err := jsvm.V8ctx.RunScript(fmt.Sprintf("GL.clearColor(0, %f, 0, 1)", float32(green)), "main.js")
+	if err != nil {
+		fmt.Println(fmt.Sprintf("error clearColor %v", err))
+	}
+	_, err = jsvm.V8ctx.RunScript(fmt.Sprint("GL.clear(GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT)"), "main.js")
+	if err != nil {
+		fmt.Println(fmt.Sprintf("error clear %v", err))
+	}
+}
+
+func logGLInfo() {
 	_, err := jsvm.V8ctx.RunScript("log(\"GL.ES_VERSION_2_0 =\", GL.ES_VERSION_2_0)", "main.js")
 	if err != nil {
 		fmt.Println(fmt.Sprintf("error log %v", err))
@@ -66,16 +78,6 @@ func drawOpenGL() {
 	_, err = jsvm.V8ctx.RunScript("log(\"GL.DEPTH_BUFFER_BIT =\", GL.DEPTH_BUFFER_BIT)", "main.js")
 	if err != nil {
 		fmt.Println(fmt.Sprintf("error log %v", err))
-	}
-
-
-	_, err = jsvm.V8ctx.RunScript(fmt.Sprintf("GL.clearColor(0, %f, 0, 1)", float32(green)), "main.js")
-	if err != nil {
-		fmt.Println(fmt.Sprintf("error clearColor %v", err))
-	}
-	_, err = jsvm.V8ctx.RunScript(fmt.Sprint("GL.clear(GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT)"), "main.js")
-	if err != nil {
-		fmt.Println(fmt.Sprintf("error clear %v", err))
 	}
 }
 
