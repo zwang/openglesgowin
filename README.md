@@ -1,8 +1,10 @@
 # Go-GLFW + v8go + OpenGLES in V8
 
-This is a demo app trying to demonstrate using go-glfw to create a window and use javascript through v8go to send OpenGL ES commands (which are bound to v8 in C++ world) to draw UI in the glfw window created in golang world.
+This is a demo app trying to demonstrate using go-glfw to create a window do simple OpenGL ES Commands to draw screen
 
-Currently, it keeps getting `gl error: 1282` for simple gl commands like glClear and glClearColor in Windows platform.
+In `main` branch, the OpenGL ES Commands are called in javascript in v8go (they are bound to v8 in C++ world) to draw UI in the glfw window created in golang world. However, it keeps getting `gl error: 1282` for simple gl commands like glClear and glClearColor in Windows platform.
+
+In `bingGLInGolang` branch, the OpenGL ES Commands are also called in javascript in v8go (but they are bound to v8 in Golang world) to draw UI in the glfw window created in golang world; and this works correctly.
 
 ## Dependencies: (see go.mod for correct folder path structure)
 
