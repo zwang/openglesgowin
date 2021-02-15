@@ -12,4 +12,4 @@ require (
 replace github.com/go-gl/gl => ../../go/src/github.com/zwang/gl
 
 // Comment this out to use default v8go, which does not have gl bind from c++ world.
-//replace rogchap.com/v8go => ../../go/src/github.com/plato-app/v8go
+// replace rogchap.com/v8go => ../../go/src/github.com/plato-app/v8go
