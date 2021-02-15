@@ -23,16 +23,7 @@ func NewJsVM() (*JsVM, error) {
 		return nil, fmt.Errorf("newObjectTemplate error: %w", err)
 	}
 
-	logFunc, err := v8go.NewFunctionTemplate(iso, func(info *v8go.FunctionCallbackInfo) *v8go.Value {
-		fmt.Printf("log: %+v\n", info.Args())
-		return nil
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	err = global.Set("log", logFunc, v8go.ReadOnly)
+	err = bindGLObject(iso, global)
 	if err != nil {
 		return nil, err
 	}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	gl "github.com/go-gl/gl/v3.1/gles2"
 	"github.com/go-gl/glfw/v3.3/glfw"
 	"log"
 	"math"
@@ -30,12 +31,17 @@ func main() {
 	glfw.WindowHint(glfw.ContextVersionMajor, 2)
 	glfw.WindowHint(glfw.ContextVersionMinor, 0)
 
-	window, err := glfw.CreateWindow(800, 600, "Gio + GLFW", nil, nil)
+	window, err := glfw.CreateWindow(800, 600, "Click Me!", nil, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	window.MakeContextCurrent()
+
+	err = gl.Init()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	jsvm, err = NewJsVM()
 	if err != nil {
