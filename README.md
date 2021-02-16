@@ -4,13 +4,14 @@ This is a demo app trying to demonstrate using go-glfw to create a window do sim
 
 In `main` branch, the OpenGL ES Commands are called in javascript in v8go (they are bound to v8 in C++ world) to draw UI in the glfw window created in golang world. However, it keeps getting `gl error: 1282` for simple gl commands like glClear and glClearColor in Windows platform.
 
-In `bingGLInGolang` branch, the OpenGL ES Commands are also called in javascript in v8go (but they are bound to v8 in Golang world) to draw UI in the glfw window created in golang world; and this works correctly.
+In `bindGLInGolang` branch, the OpenGL ES Commands are also called in javascript in v8go (but they are bound to v8 in Golang world) to draw UI in the glfw window created in golang world; and this works correctly.
 
 ## Dependencies: (see go.mod for correct folder path structure)
 
 1. github.com/go-gl/glfw/v3.3/glfw
-2. github.com/plato-app/v8go
-3. V8 for windows
+2. github.com/plato-app/v8go (for main branch for binding OpenGL ES in C++ world)
+3. https://github.com/rogchap/v8go (for bindGLInGolang branch for binding OpenGL ES in Golang world)
+4. V8 for windows (see below)
 
 #### V8 for Windows:
 
